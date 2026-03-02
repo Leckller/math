@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body,
+        #home {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #home canvas {
+            border: solid 1px black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="home">
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    const home = document.getElementById("home");
+    const canvas = document.createElement("canvas");
+
+    home.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+
+    const canvasSize = 1000;
+    const canvasHeight = 1000;
+    const graphSpace = 50;
+    const lineSize = 2;
+    const font = "18px serif";
+    const pontosX = []
+    const pontosY = []
+    const pontoXZero = canvasSize / 2;
+    const pontoYZero = canvasHeight / 2;
+
+    canvas.width = canvasSize;
+    canvas.height = canvasHeight;
+    ctx.lineWidth = lineSize;
+    ctx.font = font;
+
+    for (let index = 0; index <= canvasSize; index += graphSpace) {
+        // eixo das abscissas
+
+        const x = 0;
+        const y = index;
+
+        ctx.beginPath();
+
+        ctx.moveTo(x, index)
+        ctx.lineTo(canvasSize, index)
+        ctx.fillText(index, index + 5, graphSpace - 5)
+
+        ctx.closePath();
+        ctx.stroke();
+
+        pontosX.push(index)
+
+    }
+
+    for (let index = 0; index <= canvasHeight; index += graphSpace) {
+        // eixo das ordenadas
+
+        const x = index;
+        const y = 0;
+
+        ctx.beginPath();
+
+        ctx.moveTo(x, y)
+        ctx.lineTo(x, canvasHeight)
+        ctx.fillText(index, 0 + 5, index + graphSpace - 5)
+
+        ctx.closePath();
+        ctx.stroke();
+
+        pontosY.push(index)
+    }
+
+    const desenhaLinha = (startX, startY, x, y, color = "black", showCordinates = false) => {
+
+        ctx.beginPath();
+
+        ctx.strokeStyle = color;
+
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(x, y);
+        if (showCordinates) {
+            ctx.fillText(`{ x: ${x}, y: ${y} }`, x, y);
+        }
+
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.strokeStyle = "black"
+
+    }
+
+    const funcaoLinear = (x, coeficiente, color = "blue", showCordinates = false) => {
+        // Desenha uma reta utilizando a função linear
+
+        const y = x * coeficiente;
+
+        desenhaLinha(canvasSize, canvasHeight, x, y, color, showCordinates)
+    }
+
+    funcaoLinear(0, 1);
+
+
+    // Desenha os eixos centrais
+    desenhaLinha(0, canvasHeight / 2, canvasSize, canvasHeight / 2, "red")
+    desenhaLinha(canvasSize / 2, 0, canvasSize / 2, canvasHeight, "red")
+
+
+</script>
