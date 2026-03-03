@@ -47,15 +47,13 @@
     home.appendChild(canvas);
     const ctx = canvas.getContext("2d");
 
-    const canvasSize = 1000;
-    const canvasHeight = 1000;
+    const canvasSize = 500;
+    const canvasHeight = 500;
     const graphSpace = 50;
-    const lineSize = 2;
+    const lineSize = 1;
     const font = "18px serif";
     const pontosX = []
     const pontosY = []
-    const pontoXZero = canvasSize / 2;
-    const pontoYZero = canvasHeight / 2;
 
     canvas.width = canvasSize;
     canvas.height = canvasHeight;
@@ -72,12 +70,10 @@
 
         ctx.moveTo(x, index)
         ctx.lineTo(canvasSize, index)
-        ctx.fillText(index, index + 5, graphSpace - 5)
+        ctx.fillText(index, index, 15)
 
         ctx.closePath();
         ctx.stroke();
-
-        pontosX.push(index)
 
     }
 
@@ -91,13 +87,13 @@
 
         ctx.moveTo(x, y)
         ctx.lineTo(x, canvasHeight)
-        ctx.fillText(index, 0 + 5, index + graphSpace - 5)
+        ctx.fillText(index, 0, canvasHeight - index)
 
         ctx.closePath();
         ctx.stroke();
 
-        pontosY.push(index)
     }
+
 
     const desenhaLinha = (startX, startY, x, y, color = "black", showCordinates = false) => {
 
@@ -118,16 +114,57 @@
 
     }
 
-    const funcaoLinear = (x, coeficiente, color = "blue", showCordinates = false) => {
-        // Desenha uma reta utilizando a função linear
 
-        const y = x * coeficiente;
+    ctx.beginPath();
+    ctx.strokeStyle = "blue";
 
-        desenhaLinha(canvasSize, canvasHeight, x, y, color, showCordinates)
+    const a = -0.01;
+    const b = 0.5;
+    const c = 200;
+
+    for (let x = 0; x < 500; x++) {
+        // Funciona assim mas tbm da p fazer com f(x) = ax²; sendo b e c = 0
+        // a subtração do canvas é p inverter o eixo e ficar no mesmo sentido do plano cartesiano
+        const y = canvas.height - (a * x * x + b * x + c);
+
+        if (x === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
     }
 
-    funcaoLinear(0, 1);
+    ctx.stroke();
 
+
+    // ctx.beginPath();
+
+    // ctx.moveTo(100, 200);
+    // ctx.lineTo(150, 50)
+
+    // ctx.moveTo(150, 50)
+    // ctx.lineTo(300, 50)
+
+    // ctx.moveTo(300, 50)
+    // ctx.lineTo(200, 350)
+
+    // ctx.moveTo(200, 350)
+    // ctx.lineTo(100, 200)
+
+    // ctx.closePath();
+    // ctx.strokeStyle = "blue"
+    // ctx.stroke();
+
+
+
+    // const funcaoLinear = (x, coeficiente, color = "blue", showCordinates = false) => {
+    //     // Desenha uma reta utilizando a função linear
+    //     const y = x * coeficiente;
+
+    //     desenhaLinha(canvasSize, canvasHeight, x, y, color, showCordinates)
+    // }
+
+    // // funcaoLinear(0, 1);
 
     // Desenha os eixos centrais
     desenhaLinha(0, canvasHeight / 2, canvasSize, canvasHeight / 2, "red")
